@@ -3,8 +3,8 @@ import numpy as np
 
 class Perceptron:
 
-    def __init__(self):
-        self.w = np.array((0, 0))
+    def __init__(self, input_dim=2):
+        self.w = np.zeros((input_dim))
 
     def train(self, x_train, y_train):
         while(True):
@@ -20,8 +20,10 @@ class Perceptron:
     def predict(self, x):
         return 1 if np.dot(self.w.T, x) > 0 else -1
 
-    def save_weights(self):
-        with open('weights', 'wb') as file:
+    def save_weights(self, filename):
+        if filename is None:
+            return
+        with open(filename, 'wb') as file:
             np.save(file, self.w)
 
     def load_weights(self, filename):
@@ -35,7 +37,7 @@ if __name__ == "__main__":
     y = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
 
     p = Perceptron()
-    #p.train(x, y)
-    #p.save_weights()
-    #p.load_weights('weights')
-    print(p.predict([1, 8]))
+    p.train(x, y)
+    p.save_weights('weights')
+    # p.load_weights('weights')
+    print(p.predict([1, -8]))
